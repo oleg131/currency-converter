@@ -1,16 +1,35 @@
 import React from "react";
+import { get, set } from "idb-keyval";
+
+import { usePersistedState } from "./usePersistedState.js";
+
 import "./App.css";
 
 const URL = "https://open.er-api.com/v6/latest/";
 const BASE = "USD";
 
 function App() {
-    const [baseCurrency, setBaseCurrency] = React.useState(BASE);
-    const [baseValue, setBaseValue] = React.useState(1);
-    const [currencies, setCurrencies] = React.useState([baseCurrency]);
+    const [baseCurrency, setBaseCurrency] = usePersistedState(
+        "baseCurrency",
+        BASE
+    );
+    const [baseValue, setBaseValue] = usePersistedState("baseValue", 1);
+    const [currencies, setCurrencies] = usePersistedState("currencies", [
+        baseCurrency,
+    ]);
 
-    const [rates, setRates] = React.useState();
-    const [updated, setUpdated] = React.useState();
+    const [rates, setRates] = usePersistedState("rates", null);
+    const [updated, setUpdated] = usePersistedState("updated", null);
+
+    // React.useEffect(() => {
+    //     get("currencies").then((val) => setCurrencies(val));
+    // }, []);
+
+    // React.useEffect(() => {
+    //     set("currencies", currencies)
+    //         .then(() => console.log("currencies saved"))
+    //         .catch((err) => console.log("currencies save failed", err));
+    // }, [currencies]);
 
     React.useEffect(() => {
         fetch(URL + BASE)
@@ -35,7 +54,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <div className="text-sm font-light">
-                    Last updated: {updated ? updated.toISOString() : "Never"}
+                    Rates updated: {updated ? updated.toISOString() : "Never"}
                 </div>
                 <div className="mx-auto w-full max-w-sm">
                     <div
@@ -79,7 +98,10 @@ function App() {
                         onClick={() => {
                             const currency = prompt("Enter currency code");
                             if (currency) {
-                                setCurrencies([...currencies, currency]);
+                                setCurrencies([
+                                    ...currencies,
+                                    currency.toUpperCase(),
+                                ]);
                             }
                         }}
                     >
