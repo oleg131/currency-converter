@@ -3,9 +3,10 @@ import logo from "./logo.svg";
 import "./App.css";
 
 const URL = "https://open.er-api.com/v6/latest/";
+const BASE = "USD";
 
 function App() {
-    const [baseCurrency, setBaseCurrency] = React.useState("USD");
+    const [baseCurrency, setBaseCurrency] = React.useState(BASE);
     const [baseValue, setBaseValue] = React.useState(1);
     const [currencies, setCurrencies] = React.useState([baseCurrency]);
 
@@ -13,7 +14,7 @@ function App() {
     const [updated, setUpdated] = React.useState();
 
     React.useEffect(() => {
-        fetch(URL + baseCurrency)
+        fetch(URL + BASE)
             .then((res) => res.json())
             .then((data) => {
                 setRates(data.rates);
