@@ -1,5 +1,4 @@
 import React from "react";
-import { get, set } from "idb-keyval";
 
 import { usePersistedState } from "./usePersistedState.js";
 
@@ -38,7 +37,7 @@ function App() {
                 setRates(data.rates);
                 setUpdated(new Date());
             });
-    }, []);
+    }, [setRates, setUpdated]);
 
     function processCurrency(currency) {
         if (!rates) {
