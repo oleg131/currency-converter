@@ -37,19 +37,13 @@ function SortableCurrencyRow({ currency, isBase, value, onActivate, onDelete }) 
     return (
         <div className="py-1" ref={setNodeRef} style={style}>
             <div
-                className={`flex items-center p-2 w-full cursor-pointer overflow-hidden ${
+                className={`flex items-center p-2 w-full cursor-grab touch-none overflow-hidden ${
                     isBase ? "border-2 border-blue-800 rounded-md" : ""
                 }`}
                 onClick={onActivate}
+                {...attributes}
+                {...listeners}
             >
-                <span
-                    className="touch-none cursor-grab text-slate-300 mr-2 select-none"
-                    {...attributes}
-                    {...listeners}
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    ⠿
-                </span>
                 <strong className="shrink-0 text-left">
                     {getEmojiByCurrencyCode(currency)} {currency}
                 </strong>
@@ -121,7 +115,9 @@ function App() {
     }
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
+        useSensor(PointerSensor, {
+            activationConstraint: { distance: 8 },
+        }),
         useSensor(TouchSensor, {
             activationConstraint: { delay: 250, tolerance: 5 },
         })
