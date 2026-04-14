@@ -141,7 +141,7 @@ function App() {
                 <div className="mx-auto w-full">
                     <div
                         id="latest_rates_display"
-                        className="my-5 w-full bg-white shadow rounded-md px-5 py-3 text-3xl empty:hidden text-black"
+                        className="my-5 w-full bg-white shadow rounded-md px-5 py-3 text-2xl empty:hidden text-black"
                     >
                         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                             <SortableContext items={currencies} strategy={verticalListSortingStrategy}>
