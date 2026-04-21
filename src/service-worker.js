@@ -46,6 +46,12 @@ registerRoute(
   createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')
 );
 
+// Cache exchange rate API responses
+registerRoute(
+  ({ url }) => url.origin === 'https://open.er-api.com',
+  new StaleWhileRevalidate({ cacheName: 'exchange-rates' })
+);
+
 // An example runtime caching route for requests that aren't handled by the
 // precache, in this case same-origin .png requests like those from in public/
 registerRoute(
