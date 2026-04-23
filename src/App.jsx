@@ -154,7 +154,7 @@ function App() {
     }
 
     return (
-        <div className="flex flex-col h-screen justify-between bg-gray-800 text-white p-4">
+        <div className="flex flex-col h-dvh justify-between bg-gray-800 text-white p-4">
             <main className="mb-auto text-center overflow-scroll">
                 <div className="text-sm font-light">
                     Rates updated: {updated ? new Date(updated).toLocaleString() : "Never"}
