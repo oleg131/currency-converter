@@ -25,7 +25,7 @@ const URL = "https://open.er-api.com/v6/latest/";
 const BASE = "USD";
 
 function SortableCurrencyRow({ currency, isBase, value, onActivate, onDelete }) {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } =
         useSortable({ id: currency });
 
     const style = {
@@ -37,13 +37,20 @@ function SortableCurrencyRow({ currency, isBase, value, onActivate, onDelete }) 
     return (
         <div className="py-1" ref={setNodeRef} style={style}>
             <div
-                className={`flex items-center p-2 w-full cursor-grab touch-none overflow-hidden ${
+                className={`flex items-center p-2 w-full overflow-hidden ${
                     isBase ? "border-2 border-blue-800 rounded-md" : ""
                 }`}
                 onClick={onActivate}
                 {...attributes}
-                {...listeners}
             >
+                <span
+                    ref={setActivatorNodeRef}
+                    {...listeners}
+                    className="shrink-0 cursor-grab touch-none pr-2 text-slate-400 select-none"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    ⠿
+                </span>
                 <strong className="shrink-0 text-left">
                     {getEmojiByCurrencyCode(currency)} {currency}
                 </strong>
