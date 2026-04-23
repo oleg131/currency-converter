@@ -43,7 +43,7 @@ registerRoute(
 
     return true;
   },
-  createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')
+  createHandlerBoundToURL(import.meta.env.BASE_URL + 'index.html')
 );
 
 // Cache exchange rate API responses

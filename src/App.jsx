@@ -84,14 +84,28 @@ function App() {
     //         .catch((err) => console.log("currencies save failed", err));
     // }, [currencies]);
 
-    React.useEffect(() => {
+    function refreshRates() {
         fetch(URL + BASE)
             .then((res) => res.json())
             .then((data) => {
                 setRates(data.rates);
                 setUpdated(new Date().toISOString());
             });
-    }, [setRates, setUpdated]);
+    }
+
+    React.useEffect(() => {
+        if (!rates) {
+            refreshRates();
+            return;
+        }
+
+        const staleAfter = 6 * 60 * 60 * 1000;
+        const age = updated ? Date.now() - new Date(updated).getTime() : Infinity;
+        if (age < staleAfter) return;
+
+        const id = setTimeout(refreshRates, 0);
+        return () => clearTimeout(id);
+    }, []);
 
     function processCurrency(currency) {
         if (!rates) {
